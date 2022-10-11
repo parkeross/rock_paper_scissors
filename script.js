@@ -44,6 +44,21 @@ function playRound(playerSelection,computerSelection) {
     return win;
 }
 
+function getPlayerSelection(){
+
+    let selection = ''
+
+    while (selection !=='rock' && selection !=='paper' && selection !=='scissors'){
+        selection = prompt("Hello! Please type rock, paper, or scissors").toLowerCase();
+
+        if (selection !=='rock' && selection !=='paper' && selection !=='scissors'){
+            console.log(`Sorry, ${selection} is not a recognized input. Please type rock, paper, or scissors...`);
+        }
+    }
+    
+    return selection;
+}
+
 function game() {
 
     let playerScore=0
@@ -52,7 +67,7 @@ function game() {
     while (playerScore<3 && computerScore<3){
 
         //Get player selection
-        playerSelection = prompt("Hello! Please type rock, paper, or scissors");
+        playerSelection = getPlayerSelection();
         //Get computer selection
         computerSelection = getComputerChoice();
 
@@ -75,7 +90,7 @@ function game() {
     if (playerScore>computerScore){
         console.log("You win!");
     } else {
-        console.log("Better luck next time...");
+        console.log("You lose. Better luck next time...");
     }
 }
 
