@@ -34,13 +34,49 @@ function playRound(playerSelection,computerSelection) {
     } 
 
     //return statement
-    if (win===true) {
-        return 'You win!';
-    } else if (win===false) {
-        return 'You lose! :(';
+    //if (win===true) {
+    //    return 'You win!';
+    //} else if (win===false) {
+    //    return 'You lose! :(';
+    //} else {
+    //    return 'Draw';
+    //}
+    return win;
+}
+
+function game() {
+
+    let playerScore=0
+    let computerScore=0
+
+    while (playerScore<3 && computerScore<3){
+
+        //Get player selection
+        playerSelection = prompt("Hello! Please type rock, paper, or scissors");
+        //Get computer selection
+        computerSelection = getComputerChoice();
+
+        let win = playRound(playerSelection,computerSelection);
+
+        if (win===true) {
+            playerScore+=1;
+            console.log(`Nice! ${playerSelection} beats ${computerSelection}`);
+        } else if (win===false) {
+            computerScore+=1;
+            console.log(`Too bad... ${playerSelection} loses to ${computerSelection}`);
+        } else {
+            console.log(`Draw... You both picked ${playerSelection}`);
+        }
+        console.log(`Overall score: ${playerScore} | ${computerScore}`);
+
+    }
+
+    //determine winner
+    if (playerScore>computerScore){
+        console.log("You win!");
     } else {
-        return 'Draw';
+        console.log("Better luck next time...");
     }
 }
 
-console.log(playRound('rock','scissors'))
+game();
