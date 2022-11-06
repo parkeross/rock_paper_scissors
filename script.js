@@ -13,8 +13,10 @@ function getComputerChoice() {
 
     return choice;
 }
+function playRound(buttonText) {
 
-function playRound(playerSelection,computerSelection) {
+    playerSelection=buttonText;
+    computerSelection=getComputerChoice();
 
     let win = undefined;
 
@@ -33,17 +35,24 @@ function playRound(playerSelection,computerSelection) {
         win = false;
     } 
 
-    //return statement
-    //if (win===true) {
-    //    return 'You win!';
-    //} else if (win===false) {
-    //    return 'You lose! :(';
-    //} else {
-    //    return 'Draw';
-    //}
-    return win;
-}
+    //Change scores
+    if(win){
+        playerScore += 1;
+        message.textContent=`Congratulations! ${playerSelection} beats ${computerSelection}.`;
+    }else if(win===false){
+        computerScore += 1;
+        message.textContent=`Too bad! ${capitalize(computerSelection)} beats ${playerSelection.toLowerCase()}.`;
+    }else{
+        message.textContent=`Draw! You both chose ${playerSelection.toLowerCase()}.`;
+        pass;
+    };
 
+    //check for win
+    checkForWin();
+
+    //change score
+    changeScore();
+};
 function getPlayerSelection(){
 
     let selection = ''
@@ -57,41 +66,33 @@ function getPlayerSelection(){
     }
     
     return selection;
+};
+function checkForWin() {
+
+    if (playerScore>=3) {
+        message.textContent='CONGRATS! YOU WIN! We\'ll reset the score so you can play again...';
+        playerScore = 0;
+        computerScore = 0;
+    } else if (computerScore>=3) {
+        message.textContent='Too bad. You lost to a computer (that\'s embarrassing). We\'ll reset the score so you can try again...';
+        playerScore = 0;
+        computerScore = 0;
+    };
+
+};
+function capitalize(word){
+    return word.charAt(0).toUpperCase()+word.slice(1);
 }
-
-function game() {
-
-    let playerScore=0
-    let computerScore=0
-
-    while (playerScore<3 && computerScore<3){
-
-        //Get player selection
-        playerSelection = getPlayerSelection();
-        //Get computer selection
-        computerSelection = getComputerChoice();
-
-        let win = playRound(playerSelection,computerSelection);
-
-        if (win===true) {
-            playerScore+=1;
-            console.log(`Nice! ${playerSelection} beats ${computerSelection}`);
-        } else if (win===false) {
-            computerScore+=1;
-            console.log(`Too bad... ${playerSelection} loses to ${computerSelection}`);
-        } else {
-            console.log(`Draw... You both picked ${playerSelection}`);
-        }
-        console.log(`Overall score: ${playerScore} | ${computerScore}`);
-
-    }
-
-    //determine winner
-    if (playerScore>computerScore){
-        console.log("You win!");
-    } else {
-        console.log("You lose. Better luck next time...");
-    }
+function changeScore(){
+    score.textContent = `Player Score: ${playerScore} | Computer Score: ${computerScore}`;
 }
+playerScore = 0
+computerScore = 0
 
-game();
+//Add button event listenter
+const buttons = document.querySelectorAll("button");
+buttons.forEach((button) => {button.addEventListener('click',()=>{playRound(button.textContent)})});
+
+//Select output paragraphs for later
+const score = document.querySelector('p.score');
+const message = document.querySelector('p.message');
